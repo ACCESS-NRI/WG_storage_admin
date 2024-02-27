@@ -60,15 +60,11 @@ fi
 
 acl_filename=${wg_root}/admin/acl_files/${exp_name}
 if [ ! -f $acl_filename ]; then
-    # getfacl removes leading '/' on absolute path which leads
-    # to file not found error in setfacl later. So convert
-    # absolute path to relative path.
-    # And we need to remove the last line in the created file
+    # We need to remove the last line in the created file
     # as getfacl leaves 2 empty lines at the end. This is so one
     # can concatenate the ACLs of several files in one file but it
-    # is not our current usecase.
-    real_exp=$(realpath --relative-to="$PWD" ${wg_root}/experiments/${exp_name} )
-    getfacl ${real_exp} > ${acl_filename}
+    # is not our current use case.
+    getfacl -p ${wg_root}/experiments/${exp_name} > ${acl_filename}
     sed -i '$ d' ${acl_filename}
 fi
 
