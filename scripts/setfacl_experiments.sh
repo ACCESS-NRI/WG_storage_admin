@@ -1,11 +1,12 @@
 # Copyright 2024 ACCESS-NRI and contributors. See the top-level COPYRIGHT file for details.
 # SPDX-License-Identifier: Apache-2.0
 
-# Set and restore the ACLs on an experiment folder. It will only modify the
-# ACLs of this folder.
+# Set the ACLs on an experiment folder. 
+# It creates the folder and sets the correct ACLs for the experiment.
 # 
 # Input: 
-# exp_name: name of the experience we want to modify the ACLs. Format: YYYY-MM-DD_<exp-title>
+# experiment: name of the experience we want to modify the ACLs. Format: YYYY-MM-DD_<exp-title>
+# users: NCI login IDs of the collaborators on the experiment
 #
 
 # Read in command line arguments (code is a mix from https://stackoverflow.com/questions/192249/how-do-i-parse-command-line-arguments-in-bash and man getopt example) 
@@ -54,7 +55,6 @@ wg_root=/g/data/${wg_project}
 
 # Create exp. directory if needed
 if [ ! -d ${wg_root}/experiments/${exp_name} ]; then
-
     mkdir ${wg_root}/experiments/${exp_name}
 fi
 
