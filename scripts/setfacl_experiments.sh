@@ -54,7 +54,12 @@ wg_project=$(stat -c '%G' $0)
 wg_root=/g/data/${wg_project}
 
 # Create exp. directory if needed
-if [ ! -d ${wg_root}/experiments/${exp_name} ]; then
+if [ -d ${wg_root}/experiments/${exp_name} ]; then
+    echo "FAIL: The experiment directory already exists. Running this script again would reset the ACLs. 
+    If you need to add new collaborators, run admin/scripts/add_collab_experiment.sh.
+    If you need to recreate the ACL file, specify a dummy project and then change the filename in the ACL file."
+    exit 1
+else
     mkdir ${wg_root}/experiments/${exp_name}
 fi
 
