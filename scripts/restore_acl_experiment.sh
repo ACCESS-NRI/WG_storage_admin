@@ -38,6 +38,7 @@ fi
 
 if [ $(stat -c '%U' ${exp_path}) == $USER ]; then
     # Restore ACLs on experiment directory
+    echo Restore ACLs on the experiment directory $exp_name
     acl_filename=${wg_root}/admin/acl_files/${exp_name}
     setfacl --restore=${acl_filename}
 fi
@@ -50,4 +51,9 @@ mask_acl=mask::rwX
 # Set ACLs on files owned by the person running the script
 # We want to exclude ${exp_path} from the find results so we set mindepth=1.
 my_files=$(find ${exp_path}  -mindepth 1 -user $USER)
-setfacl -R -m ${writer_acl} -m ${default_writer_acl} -m ${mask_acl} ${my_files}
+if [ ! -z $my_files ]; then
+    echo Restore ACLs in files and directories owned by $USER within the experiment
+    setfacl -R -m ${writer_acl} -m ${default_writer_acl} -m ${mask_acl} ${my_files}
+else
+    echo No file or directory in the experiment owned by this user $USER
+fi

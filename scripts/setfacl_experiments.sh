@@ -74,7 +74,8 @@ if [ ! -f $acl_filename ]; then
 fi
 
 # Add ACLs for all the user IDs provided with rwx access
-for user in ${users}; do
+for user in ${users[@]}; do
+    echo $user
     acl=user:${user}:rwx
     cat >> ${acl_filename} << EOF_gp
 ${acl}
